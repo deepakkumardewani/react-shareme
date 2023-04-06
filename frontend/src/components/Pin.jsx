@@ -27,7 +27,7 @@ const Pin = ({ pin }) => {
   };
 
   let alreadySaved = pin?.save?.filter(
-    (item) => item?.postedBy?._id === user?.googleId
+    (item) => item?.postedBy?._id === user?.sub
   );
 
   alreadySaved = alreadySaved?.length > 0 ? alreadySaved : [];
@@ -42,10 +42,10 @@ const Pin = ({ pin }) => {
         .insert("after", "save[-1]", [
           {
             _key: uuidv4(),
-            userId: user?.googleId,
+            userId: user?.sub,
             postedBy: {
               _type: "postedBy",
-              _ref: user?.googleId,
+              _ref: user?.sub,
             },
           },
         ])
@@ -123,7 +123,7 @@ const Pin = ({ pin }) => {
                   {destination?.slice(8, 17)}...
                 </a>
               ) : undefined}
-              {postedBy?._id === user?.googleId && (
+              {postedBy?._id === user?.sub && (
                 <button
                   type='button'
                   onClick={(e) => {
